@@ -10,6 +10,10 @@
     "publish": "electron-builder -p always",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/g-landi/Venucci-Jewelers.git"
+  },
   "build": {
     "appId": "com.localhost3000.yourappname",
     "productName": "Venucci Jewelers",
