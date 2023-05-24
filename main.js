@@ -18,7 +18,6 @@ server.use(express.static('public'));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 server.use(express.json());
-autoUpdater.setFeedURL('https://github.com/g-landi/Venucci-Jewelers/releases');
 
 function createWindow() {
 
@@ -58,6 +57,7 @@ function createWindow() {
     });
 
     mainWindow.once('ready-to-show', () => {
+        autoUpdater.setFeedURL('https://github.com/g-landi/Venucci-Jewelers/releases');
 
         autoUpdater.checkForUpdatesAndNotify();
     });
