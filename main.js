@@ -36,6 +36,8 @@ function createWindow() {
         height: height,
         webPreferences: {
             nodeIntegration: true,
+            contextIsolation: false,
+
         },
         icon: appIcon // Set the icon for the window
 
