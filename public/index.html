@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venucci Jewelers Receipt Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Venucci Jewelers Receipt Generator</h1>
+    <div id="update-message"></div>
+
+    <form>
+        <div class="input-group">
+            <label>Customer Name:</label>
+            <input type="text" id="customerName" name="customerName" oninput="validateCustomerNameInput(this)" required>
+        </div>
+        <div class="input-group">
+            <label>Estimate #:</label>
+            <input type="text" id="estimateNumber" name="estimateNumber" oninput="validateEstimateNumberInput(this)"
+                required>
+        </div>
+        <div class="input-group">
+            <label>Customer Phone #:</label>
+            <input type="text" id="customerPhone" oninput="validatePhoneInput(this)" maxlength="10">
+        </div>
+        <div class="input-group">
+            <label>Due Date:</label>
+            <input type="text" id="dueDate" oninput="validateDueDateInput(this)" maxlength="8">
+        </div>
+        <button type="button" id="addItemButton">Add an item</button>
+        <div id="itemFields" style="display:none;">
+
+            <div class="input-group">
+                <div class="label-container">
+                    <label>Item:</label>
+                    <span class="error-message">This field is required.</span>
+                </div>
+                <input type="text" id="item" oninput="validateCustomerNameInput(this)" class="item" name="item[]"
+                    required>
+            </div>
+            <div class="input-group">
+                <div class="label-container">
+                    <label>Quantity:</label>
+                    <span class="error-message">This field is required.</span>
+                </div>
+                <input type="text" id="quantity" oninput="validatePhoneInput(this)" class="quantity" name="quantity[]"
+                    required>
+            </div>
+            <div class="input-group">
+                <div class="label-container">
+                    <label>Description:</label>
+                    <span class="error-message">This field is required.</span>
+                </div>
+                <input type="text" id="description" class="description" name="description[]" required>
+            </div>
+            <div class="input-group">
+                <div class="label-container">
+                    <label>Total:</label>
+                    <span class="error-message">This field is required.</span>
+                </div>
+                <input type="text" id="total" oninput="validateTotalInput(this)" class="total" name="total[]" required>
+            </div>
+
+            <!-- Add these elements where you want them to appear in your form -->
+            <div class="input-group">
+                <div class="camera">
+
+                    <input type="file" id="uploadFile" accept="image/*">
+                </div>
+            </div>
+            <div>
+                <button type="button" id="finishItemButton">Finish item</button>
+            </div>
+
+
+        </div>
+
+
+
+        <button type="button" id="createReceipt">Create my Receipt</button>
+    </form>
+    <canvas id="receiptCanvas" style="display:none;"></canvas>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
