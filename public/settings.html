@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="settingsstyles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <a href="index.html" class="settings-button">Receipt</a>
+
+    <div id="content">
+        <div id="item-section">
+            <ul id="item-list">
+                <!-- Items will be added here dynamically -->
+            </ul>
+
+            <div class="button-container" id="addItemArea" style="display: none;">
+                <input type="text" id="itemNameInput" placeholder="Item Name">
+                <input type="text" id="itemPriceInput" placeholder="Item Price">
+                <button class="button" id="finishItemButton">Finish Item</button>
+            </div>
+
+            <div class="button-container">
+                <button class="button" id="addItemButton">Add Item</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="download-Location">
+        <button class="downloadLocation" id="downloadLocation">Choose download location</button>
+        <span id="selected-path">No directory selected</span>
+    </div>
+
+    <script src="setting.js"></script>
+</body>
+
+</html>

@@ -12,81 +12,97 @@
 </head>
 
 <body>
-    <h1>Receipt Generator</h1>
-    <div id="update-message"></div>
+    <a href="settings.html" class="settings-button">Settings</a>
 
-    <form>
-        <div class="input-group">
-            <label>Customer Name:</label>
-            <input type="text" id="customerName" name="customerName" oninput="validateCustomerNameInput(this)" required>
-        </div>
-        <div class="input-group">
-            <label>Estimate #:</label>
-            <input type="text" id="estimateNumber" name="estimateNumber" oninput="validateEstimateNumberInput(this)"
-                required>
-        </div>
-        <div class="input-group">
-            <label>Customer Phone #:</label>
-            <input type="text" id="customerPhone" oninput="validatePhoneInput(this)" maxlength="10">
-        </div>
-        <div class="input-group">
-            <label>Due Date:</label>
-            <input type="text" id="dueDate" oninput="validateDueDateInput(this)" maxlength="8">
-        </div>
-        <button type="button" id="addItemButton">Add an item</button>
-        <div id="itemFields" style="display:none;">
 
+    <div id="receiptGeneratorContainer">
+        <h1>Receipt Generator</h1>
+        <div id="update-message"></div>
+
+
+        <form>
             <div class="input-group">
-                <div class="label-container">
-                    <label>Item:</label>
-                    <span class="error-message">This field is required.</span>
-                </div>
-                <input type="text" id="item" oninput="validateCustomerNameInput(this)" class="item" name="item[]"
+                <label for="customerName">Customer Name: <small class="requirements">Only letters are allowed.</small></label>
+                <span id="nameError" class="name-error">This field is required.</span>
+                <input type="text" id="customerName" name="customerName" oninput="validateCustomerNameInput(this)" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="customerName">Estimate #: <small class="requirements">Only numbers are allowed.</small></label>
+                <input type="text" id="estimateNumber" name="estimateNumber" oninput="validateEstimateNumberInput(this)"
                     required>
             </div>
             <div class="input-group">
-                <div class="label-container">
-                    <label>Quantity:</label>
-                    <span class="error-message">This field is required.</span>
-                </div>
-                <input type="text" id="quantity" oninput="validatePhoneInput(this)" class="quantity" name="quantity[]"
-                    required>
+                <label></label>
+                <label for="customerName">Customer Phone #: <small class="requirements">format: XXXXXXXXXX</small></label>
+                <input type="text" id="customerPhone" oninput="validatePhoneInput(this)" maxlength="10">
             </div>
             <div class="input-group">
-                <div class="label-container">
-                    <label>Description:</label>
-                    <span class="error-message">This field is required.</span>
+                <label for="dueDate">Due Date: <small class="requirements"></small></label>
+                <input type="date" id="dueDate">
+            </div>
+            
+            <button type="button" id="addItemButton">Add an item</button>
+            <div id="itemFields" style="display:none;">
+
+                <div class="input-group">
+                    <div class="label-container">
+                        <label>Item:</label>
+                        <span id="itemError" class="error-message">This field is required.</span>
+                    </div>
+                    <div class="dropdown-input" id="dropdownInput">
+                        <input type="text" id="item" oninput="validateCustomerNameInput(this)" class="item" name="item[]" required>
+                        <div id="triangle" class="triangle"></div>
+                        <div class="dropdown" id="dropdown"></div>
+                    </div>
                 </div>
-                <input type="text" id="description" class="description" name="description[]" required>
-            </div>
-            <div class="input-group">
-                <div class="label-container">
-                    <label>Total:</label>
-                    <span class="error-message">This field is required.</span>
+                
+                <div class="input-group">
+                    <div class="label-container">
+                        <label>Quantity:</label>
+                        <span id="quantityError" class="error-message">This field is required.</span>
+                    </div>
+                    <input type="text" id="quantity" oninput="validatePhoneInput(this)" class="quantity" name="quantity[]" required>
                 </div>
-                <input type="text" id="total" oninput="validateTotalInput(this)" class="total" name="total[]" required>
-            </div>
-
-            <!-- Add these elements where you want them to appear in your form -->
-            <div class="input-group">
-                <div class="camera">
-
-                    <input type="file" id="uploadFile" accept="image/*">
+                
+                <div class="input-group">
+                    <div class="label-container">
+                        <label>Description:</label>
+                        <span id="descriptionError" class="error-message">This field is required.</span>
+                    </div>
+                    <input type="text" id="description" class="description" name="description[]" required>
                 </div>
+                
+                <div class="input-group">
+                    <div class="label-container">
+                        <label>Total:</label>
+                        <span id="totalError" class="error-message">This field is required.</span>
+                    </div>
+                    <input type="text" id="total" oninput="validateTotalInput(this)" class="total" name="total[]" required>
+                </div>
+                
+                <!-- Add these elements where you want them to appear in your form -->
+                <div class="input-group">
+                    <div class="camera">
+
+                        <input type="file" id="uploadFile" accept="image/*">
+                    </div>
+                </div>
+                <div>
+                    <button type="button" id="finishItemButton">Finish item</button>
+                </div>
+
+
             </div>
-            <div>
-                <button type="button" id="finishItemButton">Finish item</button>
-            </div>
-
-
-        </div>
 
 
 
-        <button type="button" id="createReceipt">Create my Receipt</button>
-    </form>
+            <button type="button" id="createReceipt">Create my Receipt</button>
+        </form>
+    </div>
+
     <canvas id="receiptCanvas" style="display:none;"></canvas>
-    <script src="scripts.js"></script>
+    <script src="index.js"></script>
 </body>
 
 </html>
