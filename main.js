@@ -1,5 +1,5 @@
 require('dotenv').config()
-const { app, BrowserWindow, screen, nativeImage, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, screen, nativeImage, ipcMain, dialog } = require('electron'); // Added 'dialog'
 const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const url = require('url');
@@ -8,8 +8,6 @@ const ExcelJS = require('exceljs');
 const bodyParser = require('body-parser');
 const fs = require('fs')
 const { exec } = require('child_process');
-
-
 
 let mainWindow;
 const server = express();
@@ -68,7 +66,50 @@ ipcMain.handle('get-file-path', async (event) => {
     }
 });
 
+function createWindow() {
 
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const iconPath = path.join(__dirname, 'icon.ico'); // Replace 'icon.png' with your actual icon file name
+    const appIcon = nativeImage.createFromPath(iconPath);
+
+
+    mainWindow = new BrowserWindow({
+        movable: false,
+        frame: true,
+        fullscreen: false,
+        fullscreenable: true,
+        resizable: false,
+        title: 'Receipt Generator',
+        width: width,
+        height: height,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false,
+
+        },
+        icon: appIcon // Set the icon for the window
+
+    });
+
+    const startUrl = process.env.ELECTRON_START_URL || url.format({
+        pathname: path.join(__dirname, 'public/index.html'),
+        protocol: 'file:',
+        slashes: true
+    });
+
+    mainWindow.loadURL(startUrl);
+
+    mainWindow.on('closed', function () {
+        mainWindow = null;
+    });
+
+    mainWindow.once('ready-to-show', () => {
+        autoUpdater.setFeedURL('https://github.com/g-landi/Venucci-Jewelers/releases');
+
+        autoUpdater.checkForUpdatesAndNotify();
+    });
+
+}
 
 server.use(express.static('public'));
 server.use(express.json());
@@ -173,7 +214,7 @@ server.post('/process-data', async (req, res) => {
             // Respond with success status and the path to the file
         }
     });
-
+    
     // Respond with success status and the path to the file
     res.status(200).json({ filePath });
 
@@ -308,21 +349,12 @@ app.on('ready', () => {
     autoUpdater.on('update-downloaded', () => {
         mainWindow.webContents.send('update_downloaded');
     });
-    autoUpdater.on('checking-for-update', () => {
-        console.log("Checking for updates...");
-    });
-    autoUpdater.on('update-not-available', () => {
-        console.log("Update not available");
-    });
-    autoUpdater.on('update-downloaded', () => {
-        console.log("Update downloaded");
-    });
-    autoUpdater.checkForUpdates();
 });
 
 ipcMain.on('restart_app', () => {
     autoUpdater.quitAndInstall();
 });
+
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {
@@ -340,46 +372,3 @@ autoUpdater.on('error', (error) => {
     console.log(`Update Error: ${error}`);
 });
 
-function createWindow() {
-
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-    const iconPath = path.join(__dirname, 'icon.ico'); // Replace 'icon.png' with your actual icon file name
-    const appIcon = nativeImage.createFromPath(iconPath);
-
-
-    mainWindow = new BrowserWindow({
-        movable: false,
-        frame: true,
-        fullscreen: false,
-        fullscreenable: true,
-        resizable: false,
-        title: 'Receipt Generator',
-        width: width,
-        height: height,
-        webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false,
-
-        },
-        icon: appIcon // Set the icon for the window
-
-    });
-
-    const startUrl = process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, 'public/index.html'),
-        protocol: 'file:',
-        slashes: true
-    });
-
-    mainWindow.loadURL(startUrl);
-
-    mainWindow.on('closed', function () {
-        mainWindow = null;
-    });
-
-    mainWindow.once('ready-to-show', () => {
-        autoUpdater.setFeedURL('https://github.com/g-landi/Venucci-Jewelers/releases');
-
-        autoUpdater.checkForUpdatesAndNotify();
-    });
-}
