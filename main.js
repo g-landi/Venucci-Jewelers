@@ -8,6 +8,8 @@ const ExcelJS = require('exceljs');
 const bodyParser = require('body-parser');
 const fs = require('fs')
 const { exec } = require('child_process');
+const electron = require('electron');
+const userDataPath = (electron.app || electron.remote.app).getPath('userData');
 
 let mainWindow;
 const server = express();
@@ -18,7 +20,7 @@ server.use(bodyParser.json({ limit: '50mb' }));
 server.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 server.use(express.json());
 
-const downloadDirectoryPath = path.join(__dirname, 'download_directory.txt');
+const downloadDirectoryPath = path.join(userDataPath, 'download_directory.txt');
 
 ipcMain.handle('get-last-selected-path', async (event) => {
     try {
@@ -30,34 +32,31 @@ ipcMain.handle('get-last-selected-path', async (event) => {
     }
 });
 
-
 ipcMain.handle('get-file-path', async (event) => {
     const { filePaths } = await dialog.showOpenDialog(mainWindow, {
         properties: ['openDirectory'],
     });
 
     if (filePaths[0]) {
-        const file = path.join(__dirname, 'download_directory.txt');
+        const file = path.join(userDataPath, 'download_directory.txt');
 
         fs.access(file, fs.constants.F_OK, (err) => {
             if (err) {
                 // File does not exist, create and write to it
                 fs.writeFile(file, filePaths[0], err => {
                     if (err) {
-                        console.error(err);
-                        // Handle error...
+                        console.error("Error while creating and writing to file: ", err);
                     } else {
-                        // File has been created and written to...
+                        console.log("New file has been created and written to.");
                     }
                 });
             } else {
                 // File does exist, append to it
                 fs.writeFile(file, `\n${filePaths[0]}`, err => {
                     if (err) {
-                        console.error(err);
-                        // Handle error...
+                        console.error("Error while writing to existing file: ", err);
                     } else {
-                        // Existing file has been written to...
+                        console.log("Existing file has been written to.");
                     }
                 });
             }
@@ -229,7 +228,7 @@ server.post('/add-item', (req, res) => {
         const item = `Name: ${name}, Price: ${price}`;
 
         // Path to the file
-        const filePath = path.join(__dirname, 'file.txt');
+        const filePath = path.join(userDataPath, 'file.txt');
 
         fs.access(filePath, fs.constants.F_OK, (err) => {
             if (err) {
@@ -261,7 +260,7 @@ server.post('/add-item', (req, res) => {
 });
 
 server.get('/items', (req, res) => {
-    const filePath = path.join(__dirname, 'file.txt');
+    const filePath = path.join(userDataPath, 'file.txt');
 
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
@@ -284,13 +283,13 @@ server.get('/items', (req, res) => {
 server.delete('/delete-item', (req, res) => {
     const { itemString } = req.body;
 
-    fs.readFile(path.join(__dirname, 'file.txt'), 'utf8', (err, data) => {
+    fs.readFile(path.join(userDataPath, 'file.txt'), 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading the file:', err);
             res.status(500).send('Error reading the file');
         } else {
             const newData = data.split('\n').filter(line => line.trim() !== itemString.trim()).join('\n');
-            fs.writeFile(path.join(__dirname, 'file.txt'), newData, 'utf8', (err) => {
+            fs.writeFile(path.join(userDataPath, 'file.txt'), newData, 'utf8', (err) => {
                 if (err) {
                     console.error('Error writing to the file:', err);
                     res.status(500).send('Error writing to the file');
@@ -308,7 +307,7 @@ server.delete('/delete-item', (req, res) => {
 server.put('/edit-item', (req, res) => {
     const { oldItemString, newItem } = req.body;
 
-    fs.readFile(path.join(__dirname, 'file.txt'), 'utf8', (err, data) => {
+    fs.readFile(path.join(userDataPath, 'file.txt'), 'utf8', (err, data) => {
         if (err) {
             console.error('Error reading the file:', err);
             res.status(500).send('Error reading the file');
@@ -319,7 +318,7 @@ server.put('/edit-item', (req, res) => {
 
             if (index !== -1) {
                 nonEmptyLines[index] = `Name: ${newItem.name}, Price: ${newItem.price}`;
-                fs.writeFile(path.join(__dirname, 'file.txt'), nonEmptyLines.join('\n'), 'utf8', (err) => {
+                fs.writeFile(path.join(userDataPath, 'file.txt'), nonEmptyLines.join('\n'), 'utf8', (err) => {
                     if (err) {
                         console.error('Error writing to the file:', err);
                         res.status(500).send('Error writing to the file');

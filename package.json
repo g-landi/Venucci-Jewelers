@@ -1,62 +1,62 @@
 {
-    "name": "website",
-    "version": "1.1.0",
-    "description": "",
-    "main": "main.js",
-    "scripts": {
-        "start": "electron .",
-        "pack": "electron-builder --dir",
-        "dist": "electron-builder",
-        "publish": "electron-builder -p always",
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/g-landi/Venucci-Jewelers.git"
-    },
-    "build": {
-        "appId": "com.localhost3000.yourappname",
-        "productName": "Venucci Jewelers",
-        "directories": {
-            "output": "dist"
+        "name": "website",
+        "version": "1.1.2",
+        "description": "",
+        "main": "main.js",
+        "scripts": {
+                "start": "electron .",
+                "pack": "electron-builder --dir",
+                "dist": "electron-builder",
+                "publish": "electron-builder -p always",
+                "test": "echo \"Error: no test specified\" && exit 1"
         },
-        "win": {
-            "target": "nsis",
-            "icon": "icon.ico"
+        "repository": {
+                "type": "git",
+                "url": "https://github.com/g-landi/Venucci-Jewelers.git"
         },
-        "nsis": {
-            "oneClick": false,
-            "allowToChangeInstallationDirectory": true,
-            "installerIcon": "installer icon.ico",
-            "createDesktopShortcut": "always",
-            "createStartMenuShortcut": true
+        "build": {
+                "appId": "com.localhost3000.yourappname",
+                "productName": "Venucci Jewelers",
+                "directories": {
+                        "output": "dist"
+                },
+                "win": {
+                        "target": "nsis",
+                        "icon": "icon.ico"
+                },
+                "nsis": {
+                        "oneClick": false,
+                        "allowToChangeInstallationDirectory": true,
+                        "installerIcon": "installer icon.ico",
+                        "createDesktopShortcut": "always",
+                        "createStartMenuShortcut": true
+                },
+                "publish": {
+                        "provider": "github",
+                        "owner": "g-landi",
+                        "repo": "Venucci-Jewelers",
+                        "releaseType": "release",
+                        "private": false
+                }
         },
-        "publish": {
-            "provider": "github",
-            "owner": "g-landi",
-            "repo": "Venucci-Jewelers",
-            "releaseType": "release",
-            "private": false
+        "keywords": [],
+        "author": "",
+        "license": "ISC",
+        "dependencies": {
+                "body-parser": "^1.20.2",
+                "dotenv": "^16.0.3",
+                "electron-updater": "^5.3.0",
+                "esm": "^3.2.25",
+                "excel4node": "^1.8.2",
+                "exceljs": "^4.3.0",
+                "express": "^4.18.2",
+                "lowdb": "^6.0.1",
+                "regedit": "^5.1.2",
+                "registry": "^0.3.0",
+                "winreg": "^1.2.4"
+        },
+        "devDependencies": {
+                "electron": "^24.5.1",
+                "electron-builder": "^23.6.0"
         }
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "body-parser": "^1.20.2",
-        "dotenv": "^16.0.3",
-        "electron-updater": "^5.3.0",
-        "esm": "^3.2.25",
-        "excel4node": "^1.8.2",
-        "exceljs": "^4.3.0",
-        "express": "^4.18.2",
-        "lowdb": "^6.0.1",
-        "regedit": "^5.1.2",
-        "registry": "^0.3.0",
-        "winreg": "^1.2.4"
-    },
-    "devDependencies": {
-        "electron": "^24.3.1",
-        "electron-builder": "^23.6.0"
-    }
 }

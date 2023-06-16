@@ -170,18 +170,23 @@ document.getElementById("finishItemButton").onclick = function () {
 };
 
 function formatDate(date) {
-    var d = new Date(date),
+    var d = new Date(date);
+    if (isNaN(d.getTime())) {
+        return '';
+    } else {
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
         year = d.getFullYear();
 
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
+        if (month.length < 2) 
+            month = '0' + month;
+        if (day.length < 2) 
+            day = '0' + day;
 
-    return [month, day, year].join('/');
+        return [month, day, year].join('/');
+    }
 }
+
 
 
 document.getElementById("createReceipt").onclick = async function () {
